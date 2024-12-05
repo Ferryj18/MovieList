@@ -17,14 +17,16 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     return UINib(nibName: "CollectionTableViewCell", bundle: nil)
   }
   
-  func configure(with models: [Model]){
-    self.models = models
-    collectionView.reloadData()
+  func configure(with dataTo: [Title]) {
+      self.dataTo = dataTo
+      DispatchQueue.main.async {
+          self.collectionView.reloadData() // Make sure this is inside the closure
+      }
   }
-  
+
   @IBOutlet weak var collectionView: UICollectionView!
   
-  var models = [Model]()
+  var dataTo = [Title]()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,12 +44,13 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     }
    //CollectionView
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return models.count
+    return dataTo.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCollectionViewCell.identifier, for: indexPath) as! MyCollectionViewCell
-    cell.configure(with: models[indexPath.row])
+    let title = dataTo[indexPath.row] // Ambil data dari array dataTo
+        cell.configure(with: title) // Berikan data ke cell
   return cell
   }
   
