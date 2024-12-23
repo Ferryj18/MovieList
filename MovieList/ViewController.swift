@@ -33,9 +33,7 @@ class ViewController: UIViewController{
     table.register(CollectionTableViewCell.nib(), forCellReuseIdentifier: CollectionTableViewCell.identifier)
     table.delegate = self
     table.dataSource = self
-    //    let storyboard = UIStoryboard(name: "DetailMovieViewController", bundle: nil)
-    //    let DetailMovieVC = storyboard.instantiateViewController(withIdentifier: "DetailMovieViewController") as! DetailMovieViewController
-    //    navigationController?.pushViewController(DetailMovieViewController(), animated: true)
+    
   }
   
   private func getTrendingMovies() {
@@ -55,6 +53,7 @@ class ViewController: UIViewController{
   }
 }
 
+
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
   // table
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -65,13 +64,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
   }
  
-  //  func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-  //    if let vc = storyboard?.instantiateViewController(withIdentifier: "DetailMovie") as? DetailMovieViewController{
-  //      self.present(vc, animated: true)
-  //      print("gotodetail")
-  //    }
-  //  }
-  //
+  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath)  as? CollectionTableViewCell else {
       return UITableViewCell()
@@ -162,55 +155,29 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 50.0 // Tinggi header yang disesuaikan
   }
-  //  func collectionViewTableViewCellDidTapCell(_ cell: CollectionTableViewCell, viewModel: TitlePreviewViewModel) {
-  //    DispatchQueue.main.async { [weak self] in
-  //      let vc = DetailMovieViewController()
-  //
-  ////      vc.configure(with: viewModel)
-  //      self?.navigationController?.pushViewController(vc, animated: true)
-  //    }
-  //  }
-  //}
+
 }
+
 extension ViewController: CollectionTableViewCellDelegate {
     func collectionViewTableViewCellDidTapCell(_ cell: CollectionTableViewCell, viewModel: TitlePreviewViewModel) {
-      DispatchQueue.main.async { [weak self] in
-        let vc = DetailMovieViewController()
-               vc.configure(with: viewModel)
-               self?.navigationController?.pushViewController(vc, animated: true)
-           }
-       }
-   }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
 
-
-//    DispatchQueue.main.async { [weak self] in
-//      let vc = DetailMovieViewController()
-//      vc.configure(with: viewModel)
-//      self?.navigationController?.pushViewController(vc, animated: true)
-//    }
-//  }
-//}
-
-  
-//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        // Get the selected movie from the collection view
-//        let selectedMovie = dataTo[indexPath.section]
-//        
-//        // Push to the DetailMovieViewController with the selected movie data
-//        if let vc = storyboard?.instantiateViewController(withIdentifier: "DetailMovieViewController") as? DetailMovieViewController {
-//            vc.movie = selectedMovie // Pass the selected movie data
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-//    }
-  
-
-//struct Model{
-//  let text: String
-//  let imageName: String
-//  
-//  init(text: String, imageName: String) {
-//    self.text = text
-//    self.imageName = imageName
-//  }
-//}
+            // Access the storyboard and instantiate DetailMovieVC by its Storyboard ID
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            // Try to instantiate the view controller
+            if let vc = storyboard.instantiateViewController(withIdentifier: "DetailView") as? DetailMovieVC {
+                // Pass the viewModel to the DetailMovieVC
+                vc.configure(with: viewModel)
+                
+                // Push the view controller to the navigation stack
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                // If instantiation fails, print the error message
+                print("Failed to instantiate DetailMovieVC")
+            }
+        }
+    }
+}
 

@@ -14,6 +14,7 @@ struct Constants {
     static let baseURL = "https://api.themoviedb.org"
     static let YoutubeAPI_KEY = "AIzaSyDuHzNcNJM5q8plEkXx681SwPXN_530YK4"
     static let YoutubeBaseURL = "https://youtube.googleapis.com/youtube/v3/search?"
+  
 }
 
 enum APIError: Error {
