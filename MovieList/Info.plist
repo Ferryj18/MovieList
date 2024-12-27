@@ -28,7 +28,7 @@
 		</dict>
 	</dict>
 	<key>AppIcon</key>
-	<string></string>
+	<string>image_5</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
